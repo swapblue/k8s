@@ -1,0 +1,60 @@
+---
+ - name: Initialize Cluster
+   shell: 'kubeadm init --apiserver-advertise-address="{{ master_address }}" --pod-network-cidr=10.244.0.0/16 | tee -a "{{ log_dir }}"/cluster_init.log'
+
+ - name: Create local configuration directory
+   file:
+     path: "{{ kube_home_dir }}"
+     state: directory
+     owner: root
+     group: root
+
+ - name: Copy kubeadm configuration file
+   copy:
+     src: "{{ kube_admin_conf }}"
+     dest: "{{ kube_config }}"
+     owner: root
+     group: root
+
+ - name: Stop Kubelet Service
+   systemd:
+     state: stopped
+     name: kubelet
+
+ - name: Copy kubeadm init file
+   copy:
+     src: "{{ kubeadm_init_template_src }}"
+     dest: "{{ kubeadm_init_dest }}"
+     owner: root
+     group: root
+     backup: yes
+
+ - name: Reload daemon
+   systemd:
+     state: restarted
+     daemon_reload: yes
+     name: kubelet
+
+ - name: Pause for 30 seconds
+   pause:
+     seconds: 30
+
+ - name: Apply Flannel Network
+   shell: kubectl apply -f "{{ flannel_yaml }}" | tee -a "{{ log_dir }}"/Flannel.log
+
+ - name: Pause for 30 seconds
+   pause:
+     seconds: 30
+
+ - name: Check Status of node
+   shell: kubectl get nodes -o wide | tee -a "{{ log_dir }}"/nodes.log
+
+ - name: Apply kubectl dns ConfigMap
+   shell: kubectl apply -f "{{ config_map_yaml }}"
+
+ - name: Pause for 10 seconds
+   pause:
+     seconds: 10
+    
+ - name: Check pod status
+   shell: kubectl get pods -n kube-system -o wide | tee -a "{{ log_dir }}"/pods.log

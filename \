@@ -1,0 +1,3 @@
+---
+ - name: print group vars
+   debug: msg: "{{ kube_version }}"
