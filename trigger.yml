@@ -6,9 +6,10 @@
         name: roles/kube-single-node
       when: "{{ deployment_type == 'singlenode' }}"
 
-- hosts: all
+- hosts: localhost
   gather_facts: yes
   tasks:
     - include_role:
         name: roles/kube-multi-node
       when: "{{ deployment_type == 'multinode' }}"
+

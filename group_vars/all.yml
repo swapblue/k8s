@@ -1,6 +1,6 @@
 kube_version: 1.11.1
 
-deployment_type: single
+deployment_type: singlenode
 
 kube_home_dir: ~/.kube
 

@@ -1,3 +1,6 @@
 ---
-  - debug: 
-      msg: "{{ kube_version }}"
+ - name: Initialize Cluster
+   debug:
+     msg: "{{ pod_network_cidr }} {{ hostvars[groups['kubernetes-master'][0]].ansible_host }}  {{ hostvars[groups['kubernetes-master'][0]].inventory_hostname }}"
+#   shell: kubeadm init --apiserver-advertise-address="{{ ansible_default_ipv4 }}" --pod-network-cidr="{{ pod_network_cidr }}" | tee -a "{{ log_dir }}"/cluster_init.log
+
