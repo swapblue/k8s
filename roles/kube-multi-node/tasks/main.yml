@@ -1,5 +1,0 @@
----
-# vars file for kube-single-node
-- include: common.yml
-- include: postinstall.yml
-- include: node_postinstall.yml
