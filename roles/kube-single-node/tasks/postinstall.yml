@@ -1,4 +1,8 @@
 ---
+ - name: Setup Hostname
+   hostname:
+     name: {{ hostvars[kubernetes-master].inventory_hostname }}
+
  - name: Setup /etc/hosts
       lineinfile:
         dest: /etc/hosts

@@ -19,3 +19,4 @@ config_map_yaml: '{{ role_path }}/files/configmap.yml'
 flannel_yaml: "https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml"
 
 pod_network_cidr: 10.244.0.0/16
+
