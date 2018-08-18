@@ -1,1 +1,2 @@
 kube_version: 1.11.1
+deployment_type: single
