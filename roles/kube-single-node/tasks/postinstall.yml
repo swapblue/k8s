@@ -5,9 +5,15 @@
         line: "{{ hostvars[item].ansible_host }} {{ hostvars[item].inventory_hostname }} {{ hostvars[item].inventory_hostname_short }}"
         state: present
       with_items: "{{ groups.all }}"
-      
+
+ - name: ansible create directory with mode setting example
+   file:
+     path: "{{ log_dir }}"
+     state: directory
+     mode: 644
+
  - name: Initialize Cluster
-   shell: 'kubeadm init --apiserver-advertise-address="{{ master_address }}" --pod-network-cidr=10.244.0.0/16 | tee -a "{{ log_dir }}"/cluster_init.log'
+   shell: 'kubeadm init --apiserver-advertise-address="{{ master_address }}" --pod-network-cidr="{{ pod_network_cidr }}" | tee -a "{{ log_dir }}"/cluster_init.log'
 
  - name: Create local configuration directory
    file:
@@ -47,7 +53,7 @@
      seconds: 30
 
  - name: Apply Flannel Network
-   shell: kubectl apply -f "{{ flannel_yaml }}" | tee -a "{{ log_dir }}"/Flannel.log
+   shell: kubectl apply -f "{{ flannel_yaml }}" | tee -a "{{ log_dir }}"/flannel.log
 
  - name: Pause for 30 seconds
    pause:
