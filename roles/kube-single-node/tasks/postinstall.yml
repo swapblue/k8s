@@ -27,7 +27,7 @@
      src: files/10-kubeadm.conf.j2
      dest: files/10-kubeadm.conf
    vars:
-     cgroup_driver: "{{ cgroup_name }}"
+     cgroup_driver: {{ cgroup_name.stdout }}
 
  - name: Initialize Cluster
    shell: kubeadm init --apiserver-advertise-address="{{ hostvars[groups['kubernetes-master'][0]].ansible_host }}" --pod-network-cidr="{{ pod_network_cidr }}" | tee -a "{{ log_dir }}"/cluster_init.log
