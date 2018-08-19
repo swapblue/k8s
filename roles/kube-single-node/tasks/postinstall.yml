@@ -25,7 +25,7 @@
  - name: Update Kubeadm configuration file
    template:
      src: '{{ role_path }}/files/10-kubeadm.conf.j2'
-     dest: '{{ role_path }}files/10-kubeadm.conf'
+     dest: '{{ role_path }}/files/10-kubeadm.conf'
    vars:
      cgroup_driver: "{{ cgroup_name.stdout }}"
 
