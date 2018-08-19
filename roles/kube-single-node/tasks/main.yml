@@ -1,4 +1,4 @@
 ---
 # tasks file for kube-single-node
-#- include: postinstall.yml
-- include: test.yml
+- include: postinstall.yml
+#- include: test.yml
