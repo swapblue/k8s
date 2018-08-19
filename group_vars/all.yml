@@ -4,7 +4,7 @@ deployment_type: single
 
 kube_home_dir: ~/.kube
 
-kube_admin_conf: /etc/kubernetes/admin.conf
+kube_admin_conf: admin.conf
 
 kube_config: ~/.kube/config
 

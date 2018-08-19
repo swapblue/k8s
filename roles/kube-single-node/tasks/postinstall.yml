@@ -10,11 +10,22 @@
         state: present
       with_items: "{{ groups.all }}"
 
- - name: ansible create directory with mode setting example
+ - name: ansible create logs directory
    file:
      path: "{{ log_dir }}"
      state: directory
      mode: 644
+
+ - name: Getting cgroups information
+   shell: "docker info | grep -i cgroup | awk -F ': ' '{print $2}'"
+   register: cgroup_name
+
+ - name: Update Kubeadm configuration file
+   template:
+     src: files/10-kubeadm.conf.j2
+     dest: files/10-kubeadm.conf
+   vars:
+     cgroup_driver: "{{ cgroup_name }}"
 
  - name: Initialize Cluster
    shell: 'kubeadm init --apiserver-advertise-address="{{ master_address }}" --pod-network-cidr="{{ pod_network_cidr }}" | tee -a "{{ log_dir }}"/cluster_init.log'
