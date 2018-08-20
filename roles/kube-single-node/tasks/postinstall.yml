@@ -19,7 +19,10 @@
      mode: 644
 
  - name: Getting cgroups information
-   shell: "docker info | grep -i cgroup | awk -F ': ' '{print $2}'"
+   shell: "docker info | grep -i cgroup | awk -F ': ' '{print $2}' > /tmp/cgroup_docker"
+
+ - name: Reading docker cgroup
+   shell: "cat /tmp/cgroup_docker"
    register: cgroup_name
 
  - name: Update Kubeadm configuration file
